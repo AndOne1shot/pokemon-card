@@ -1,0 +1,41 @@
+.black-nav {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
+  border-bottom: 1px solid grey;
+  box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.3);
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+
+.detail {
+  flex: 0 0 calc(25% - 15px);
+  height: auto;
+  display: flex;
+  max-width: calc(25% - 15px);
+  margin-bottom: 20px;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.detail:visited {
+  color: black;
+}
+
+.modal {
+  margin-top: 20px;
+  padding: 20px;
+  text-align: left;
+  background: #eee;
+
+}
+
