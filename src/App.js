@@ -24,7 +24,7 @@ function AppContent({ 스타팅, 따봉, 따봉변경 }) {
       <Header navigate={navigate} />
 
      
-    <div style={{maxWidth: '1280px', margin: 'auto'}}>
+    <div style={{maxWidth: '1280px', margin: 'auto', marginTop: '100px'}}>
       <Routes>
       <Route path="/" element={<PokemonCards />} />
       <Route path="/card/:id" element={<CardDetail />} />

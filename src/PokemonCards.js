@@ -14,8 +14,8 @@ function PokemonCards() {
                         'X-Api-Key': process.env.REACT_APP_API_KEY
                     },
                     params: {
-                        pageSize: 4,
-                        q: 'supertype:Pokémon types:Fire',
+                        pageSize: 8,
+                        q: 'set.series:"Sword & Shield"',
                         orderBy: '-releaseDate'
                     }
                 });
@@ -33,8 +33,6 @@ function PokemonCards() {
             {cards.map(card => (
                 <Link key={card.id} to={`/card/${card.id}`} className="detail">
                     <div>
-                        <h4>{card.name}</h4>
-                        <p>{card.types ? card.types.join(', ') : 'Unknown'} 타입</p>
                         <img src={card.images.small} alt={card.name} style={{ width: '100%' }} />
                     </div>
                 </Link>
