@@ -38,36 +38,54 @@ function PokemonCard({ card }) {
 
 function PokemonCards() {
     const [cards, setCards] = useState([]);
-
-    useEffect(() => {
-        const fetchCards = async () => {
-            try {
-                const response = await axios.get('https://api.pokemontcg.io/v2/cards', {
-                    headers: {
-                        'X-Api-Key': process.env.REACT_APP_API_KEY
-                    },
-                    params: {
-                        pageSize: 8,
-                        q: 'set.series:"Sword & Shield"',
-                        orderBy: '-releaseDate'
-                    }
-                });
-                setCards(response.data.data);
-            } catch (error) {
-                console.error('Error fetching Pokemon cards:', error);
-            }
-        };
-
-        fetchCards();
+    const [searchTerm, setSearchTerm] = useState('');
+  
+    const fetchCards = useCallback(async (name = '') => {
+      try {
+        const response = await axios.get('https://api.pokemontcg.io/v2/cards', {
+          headers: {
+            'X-Api-Key': process.env.REACT_APP_API_KEY
+          },
+          params: {
+            pageSize: 8,
+            q: `name:${name}* set.series:"Sword & Shield"`,
+            orderBy: '-releaseDate'
+          }
+        });
+        setCards(response.data.data);
+      } catch (error) {
+        console.error('Error fetching Pokemon cards:', error);
+      }
     }, []);
-
+  
+    useEffect(() => {
+      fetchCards();
+    }, [fetchCards]);
+  
+    const handleSearch = (e) => {
+      e.preventDefault();
+      fetchCards(searchTerm);
+    };
+  
     return (
+      <div>
+        <form onSubmit={handleSearch} className='name-search'>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="포켓몬 이름 검색"
+            className='pokename'
+          />
+          <button type="submit" className='search-button'>검색</button>
+        </form>
         <div className="flex-container">
-            {cards.map(card => (
-                <PokemonCard key={card.id} card={card} />
-            ))}
+          {cards.map(card => (
+            <PokemonCard key={card.id} card={card} />
+          ))}
         </div>
+      </div>
     );
-}
-
-export default PokemonCards;
+  }
+  
+  export default PokemonCards;

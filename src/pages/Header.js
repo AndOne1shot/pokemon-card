@@ -8,7 +8,7 @@ function Header({ navigate }) {
         src={logo} 
         alt="logo" 
         onClick={() => navigate('/')} 
-        style={{ cursor: 'pointer', width: '200px', height: '150px' }}
+        style={{ cursor: 'pointer', width: '150px', height: '100px', marginLeft: '20px' }}
       />
     </div>
   );
