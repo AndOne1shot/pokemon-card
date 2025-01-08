@@ -42,6 +42,7 @@
   border: 1px solid;
   margin-bottom: 10px;
   display: flex;
+  justify-content: space-between;
 }
 
 .name-search:focus-within{
@@ -51,9 +52,10 @@
 
 .pokename{
   height: 100%;
-  width: 80%;
+  width: 750px;
   padding: 0;
   border: none;
+  font-size: 22px;
 }
 
 .pokename:focus{
@@ -62,7 +64,9 @@
 
 .search-button{
   height: 100%;
-  width: 20%;
+  width: 50px;
   padding: 0;
   border: 0;
+  cursor: pointer;
+  border-radius: 50%;
 }

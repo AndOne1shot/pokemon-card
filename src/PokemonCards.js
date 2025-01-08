@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import ball from './img/monsterball.png';
 
 function PokemonCard({ card }) {
     const [rotation, setRotation] = useState({ x: 0, y: 0 });
@@ -77,7 +78,7 @@ function PokemonCards() {
             placeholder="포켓몬 이름 검색"
             className='pokename'
           />
-          <button type="submit" className='search-button'>검색</button>
+          <button type="submit" className='search-button'><img src={ball} style={{width: '50px', height: '50px'}}/></button>
         </form>
         <div className="flex-container">
           {cards.map(card => (
