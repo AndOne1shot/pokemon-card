@@ -40,8 +40,11 @@ function PokemonCard({ card }) {
 function PokemonCards() {
     const [cards, setCards] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedType, setSelectedType] = useState('');
+    
+    const pokemonTypes = ['', 'Grass', 'Fire', 'Water', 'Lightning', 'Psychic', 'Fighting', 'Darkness', 'Metal', 'Fairy', 'Dragon', 'Colorless'];
   
-    const fetchCards = useCallback(async (name = '') => {
+    const fetchCards = useCallback(async (name = '', type = '') => {
       try {
         const response = await axios.get('https://api.pokemontcg.io/v2/cards', {
           headers: {
@@ -49,7 +52,7 @@ function PokemonCards() {
           },
           params: {
             pageSize: 8,
-            q: `name:${name}* set.series:"Sword & Shield"`,
+            q: `name:${name}* set.series:"Sword & Shield" ${type ? `types:${type}` : ''}`,
             orderBy: '-releaseDate'
           }
         });
@@ -60,16 +63,20 @@ function PokemonCards() {
     }, []);
   
     useEffect(() => {
-      fetchCards();
-    }, [fetchCards]);
+      fetchCards(searchTerm, selectedType);
+    }, [fetchCards, searchTerm, selectedType]);
   
     const handleSearch = (e) => {
       e.preventDefault();
-      fetchCards(searchTerm);
+      fetchCards(searchTerm, selectedType);
+    };
+  
+    const handleTypeChange = (e) => {
+      setSelectedType(e.target.value);
     };
   
     return (
-      <div>
+      <>
         <form onSubmit={handleSearch} className='name-search'>
           <input
             type="text"
@@ -78,15 +85,23 @@ function PokemonCards() {
             placeholder="포켓몬 이름 검색"
             className='pokename'
           />
-          <button type="submit" className='search-button'><img src={ball} style={{width: '50px', height: '50px'}}/></button>
+          <select value={selectedType} onChange={handleTypeChange} className='type-select'>
+            <option value="">모든 속성</option>
+            {pokemonTypes.slice(1).map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+          <button type="submit" className='search-button'>
+            <img src={ball} alt="Search" style={{width: '50px', height: '50px'}}/>
+          </button>
         </form>
         <div className="flex-container">
           {cards.map(card => (
             <PokemonCard key={card.id} card={card} />
           ))}
         </div>
-      </div>
+      </>
     );
-  }
-  
-  export default PokemonCards;
+}
+
+export default PokemonCards;

@@ -5,6 +5,10 @@
   height: 160px;
   border-bottom: 1px solid grey;
   box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
 }
 
 .flex-container {
@@ -38,11 +42,15 @@
 
 .name-search{
   height: 50px;
-  width: 800px;
-  border: 1px solid;
+  width: 400px;
+  border-width: 1px;
+  border-style: solid;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
+  border-radius: 4px;
+  margin-bottom: 50px;
+  margin-left: 760px;
 }
 
 .name-search:focus-within{
