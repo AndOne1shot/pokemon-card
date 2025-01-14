@@ -2,6 +2,7 @@
   color: white;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 160px;
   border-bottom: 1px solid grey;
   box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.3);
@@ -42,15 +43,14 @@
 
 .name-search{
   height: 50px;
-  width: 400px;
+  width: 500px;
   border-width: 1px;
   border-style: solid;
+  border-color: black;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   border-radius: 4px;
-  margin-bottom: 50px;
-  margin-left: 760px;
 }
 
 .name-search:focus-within{
@@ -60,10 +60,11 @@
 
 .pokename{
   height: 100%;
-  width: 750px;
+  width: 100%;
   padding: 0;
   border: none;
   font-size: 22px;
+  padding-left: 10px;
 }
 
 .pokename:focus{
@@ -72,9 +73,8 @@
 
 .search-button{
   height: 100%;
-  width: 50px;
+  width: 100px;
   padding: 0;
   border: 0;
   cursor: pointer;
-  border-radius: 50%;
 }
