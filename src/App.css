@@ -17,9 +17,7 @@
   flex-wrap: wrap;
   gap: 20px;
   max-width: 1280px;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: center;
+  margin: auto;
 }
 
 .container {
@@ -47,10 +45,10 @@
   border-width: 1px;
   border-style: solid;
   border-color: black;
-  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   border-radius: 4px;
+  margin-right: 320px;
 }
 
 .name-search:focus-within{

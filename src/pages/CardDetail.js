@@ -4,26 +4,34 @@ import { useParams } from 'react-router-dom';
 
 function CardDetail() {
   const [card, setCard] = useState(null);
+  const [set, setSet] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchCard = async () => {
+    const fetchCardAndSet = async () => {
       try {
-        const response = await axios.get(`https://api.pokemontcg.io/v2/cards/${id}`, {
+        const cardResponse = await axios.get(`https://api.pokemontcg.io/v2/cards/${id}`, {
           headers: {
             'X-Api-Key': process.env.REACT_APP_API_KEY
           }
         });
-        setCard(response.data.data);
+        setCard(cardResponse.data.data);
+
+        const setResponse = await axios.get(`https://api.pokemontcg.io/v2/sets/${cardResponse.data.data.set.id}`, {
+          headers: {
+            'X-Api-Key': process.env.REACT_APP_API_KEY
+          }
+        });
+        setSet(setResponse.data.data);
       } catch (error) {
         console.error('Error fetching card details:', error);
       }
     };
 
-    fetchCard();
+    fetchCardAndSet();
   }, [id]);
 
-  if (!card) return <div>Loading...</div>;
+  if (!card || !set) return <div>Loading...</div>;
 
   return (
     <div className="card-detail">
@@ -42,6 +50,11 @@ function CardDetail() {
           </ul>
         </div>
       )}
+      <div className="set-info">
+        <h3>세트 정보:</h3>
+        <p>{set.name} ({set.series})</p>
+        <img src={set.images.logo} alt={`${set.name} logo`} style={{width: '100px'}} />
+      </div>
     </div>
   );
 }

@@ -9,8 +9,8 @@ function PokemonCard({ card }) {
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        const rotateY = -2/15 * x + 20;
-        const rotateX = 1/15 * y - 20;
+        const rotateY = -2 / 15 * x + 20;
+        const rotateX = 1 / 15 * y - 20;
 
         setRotation({ x: rotateX, y: rotateY });
     }, []);
@@ -21,7 +21,7 @@ function PokemonCard({ card }) {
 
     return (
         <Link to={`/card/${card.id}`}>
-            <div 
+            <div
                 className='container'
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
@@ -36,73 +36,84 @@ function PokemonCard({ card }) {
     );
 }
 
-function PokemonCards({ searchQuery }) {
-    const [cards, setCards] = useState([]);
-    const [initialCards, setInitialCards] = useState([]);
-  
-    const fetchCards = useCallback(async (name = '') => {
-      try {
-        const response = await axios.get('https://api.pokemontcg.io/v2/cards', {
-          headers: {
-            'X-Api-Key': process.env.REACT_APP_API_KEY
-          },
-          params: {
-            pageSize: 8,
-            q: `name:${name}* set.series:"Sword & Shield"`,
-            orderBy: '-releaseDate'
-          }
-        });
-        setCards(response.data.data);
-      } catch (error) {
-        console.error('Error fetching Pokemon cards:', error);
-      }
-    }, []);
-  
-    useEffect(() => {
-      const fetchInitialCards = async () => {
+function PokemonCards({ searchTerm, selectedSeries, isSearchTriggered, setIsSearchTriggered }) {
+    const [cards, setCards] = useState([]); // 검색 결과
+    const [initialCards, setInitialCards] = useState([]); // 초기 카드 데이터
+
+    // 카드 데이터를 가져오는 함수
+    const fetchCards = useCallback(async (name = '', series = '') => {
         try {
-          const types = ['Water', 'Grass', 'Fire'];
-          const promises = types.map(type => 
-            axios.get('https://api.pokemontcg.io/v2/cards', {
-              headers: {
-                'X-Api-Key': process.env.REACT_APP_API_KEY
-              },
-              params: {
-                pageSize: 4,
-                q: `types:${type} set.series:"Sword & Shield"`,
-                orderBy: '-releaseDate'
-              }
-            })
-          );
-          const responses = await Promise.all(promises);
-          const cards = responses.flatMap(response => response.data.data);
-          setInitialCards(cards);
-        } catch (error) {
-          console.error('Error fetching initial Pokemon cards:', error);
-        }
-      };
+            const queryParts = [];
+            if (name) queryParts.push(`name:${name}*`);
+            if (series) queryParts.push(`set.series:"${series}"`);
+            const query = queryParts.join(' '); // 이름과 시리즈를 결합
 
-      fetchInitialCards();
+            const response = await axios.get('https://api.pokemontcg.io/v2/cards', {
+                headers: {
+                    'X-Api-Key': process.env.REACT_APP_API_KEY,
+                },
+                params: {
+                    pageSize: 12,
+                    q: query,
+                    orderBy: '-releaseDate',
+                },
+            });
+            setCards(response.data.data); // 검색 결과 저장
+        } catch (error) {
+            console.error('Error fetching Pokemon cards:', error);
+        }
     }, []);
 
+    // 초기 카드 데이터 가져오기
     useEffect(() => {
-      if (searchQuery) {
-        fetchCards(searchQuery);
-      }
-    }, [fetchCards, searchQuery]);
-  
+        const fetchInitialCards = async () => {
+            try {
+                const types = ['Water', 'Grass', 'Fire'];
+                const promises = types.map(type =>
+                    axios.get('https://api.pokemontcg.io/v2/cards', {
+                        headers: {
+                            'X-Api-Key': process.env.REACT_APP_API_KEY
+                        },
+                        params: {
+                            pageSize: 4,
+                            q: `types:${type} set.series:"Sword & Shield"`,
+                            orderBy: '-releaseDate'
+                        }
+                    })
+                );
+                const responses = await Promise.all(promises);
+                const cards = responses.flatMap(response => response.data.data);
+                setInitialCards(cards);
+            } catch (error) {
+                console.error('Error fetching initial Pokemon cards:', error);
+            }
+        };
+
+        fetchInitialCards();
+    }, []);
+
+    // 검색 버튼 클릭 시 데이터 가져오기
+    useEffect(() => {
+        if (isSearchTriggered) { // 검색 버튼이 눌렸을 때만 실행
+            fetchCards(searchTerm, selectedSeries);
+            setIsSearchTriggered(false); // 검색 완료 후 초기화
+        }
+    }, [fetchCards, searchTerm, selectedSeries, isSearchTriggered]);
+
     return (
-      <div className="flex-container">
-        {searchQuery ? (
-          cards.map(card => (
-            <PokemonCard key={card.id} card={card} />
-          ))
-        ) : (
-          initialCards.map(card => (
-            <PokemonCard key={card.id} card={card} />
-          ))
-        )}
-      </div>
+        <div className="flex-container">
+            {/* 검색 결과가 있을 경우 */}
+            {cards.length > 0 ? (
+                cards.map(card => (
+                    <PokemonCard key={card.id} card={card} />
+                ))
+            ) : (
+                /* 초기 카드 데이터 표시 */
+                initialCards.map(card => (
+                    <PokemonCard key={card.id} card={card} />
+                ))
+            )}
+        </div>
     );
 }
 
