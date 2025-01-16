@@ -36,55 +36,62 @@ function PokemonCard({ card }) {
     );
 }
 
-function PokemonCards({ searchTerm, isSearchTriggered, setIsSearchTriggered, initialCards }) {
-    const [cards, setCards] = useState([]); // 검색 결과를 저장할 상태
+function PokemonCards({ searchTerm, searchResults = [], handleSearch, initialCards = [] }) {
+    const [cards, setCards] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // 검색어에 따라 카드를 가져오는 함수
-    const fetchCards = useCallback(async (name = '') => {
+    const fetchCards = useCallback(async (name) => {
+        setLoading(true);
         try {
-            const queryParts = [];
-            if (name) queryParts.push(`name:${name}*`);
-            const query = queryParts.join(' '); // 이름으로만 검색
-
             const response = await axios.get('https://api.pokemontcg.io/v2/cards', {
                 headers: {
                     'X-Api-Key': process.env.REACT_APP_API_KEY,
                 },
                 params: {
                     pageSize: 12,
-                    q: query,
+                    q: name ? `name:${name}*` : '',
                     orderBy: '-releaseDate',
                 },
             });
-            setCards(response.data.data); // 검색 결과를 상태에 저장
+            const newCards = response.data.data || [];
+            setCards(newCards);
+            handleSearch(newCards);
         } catch (error) {
-            console.error('포켓몬 카드를 검색하는 중 오류 발생:', error);
+            console.error('Error fetching cards:', error);
+            setCards([]);
+        } finally {
+            setLoading(false);
         }
-    }, []);
+    }, [handleSearch]);
 
-    // 검색 버튼 클릭 시 데이터 가져오기
     useEffect(() => {
-        if (isSearchTriggered) { // 검색 버튼이 눌렸을 때만 실행
+        if (searchTerm) {
             fetchCards(searchTerm);
-            setIsSearchTriggered(false); // 검색 완료 후 초기화
+        } else if (initialCards.length > 0) {
+            setCards(initialCards);
+            setLoading(false);
+        } else {
+            setLoading(false);
         }
-    }, [fetchCards, searchTerm, isSearchTriggered]);
+    }, [fetchCards, searchTerm, initialCards]);
+
+    if (loading) {
+        return <p>로딩 중...</p>;
+    }
 
     return (
         <div className="flex-container">
-            {/* 검색 결과가 있을 경우 */}
             {cards.length > 0 ? (
                 cards.map(card => (
                     <PokemonCard key={card.id} card={card} />
                 ))
             ) : (
-                /* 초기 카드 데이터 표시 */
-                initialCards.map(card => (
-                    <PokemonCard key={card.id} card={card} />
-                ))
+                <p>검색 결과가 없습니다.</p>
             )}
         </div>
     );
 }
+
+
 
 export default PokemonCards;
