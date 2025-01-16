@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import Header from './pages/Header';
-import PokemonCards from './PokemonCards';
+import MainPage from './pages/MainPage'; // MainPage는 자체적으로 초기 데이터를 관리
+import PokemonCards from './pages/PokemonCards';
 import CardDetail from './pages/CardDetail';
 
 function App() {
@@ -14,12 +15,16 @@ function App() {
 }
 
 function AppContent() {
-  const [searchTerm, setSearchTerm] = useState(''); // 이름 검색 상태
-  const [selectedSeries, setSelectedSeries] = useState(''); // 시리즈 선택 상태
-  const [isSearchTriggered, setIsSearchTriggered] = useState(false); // 검색 버튼 클릭 여부
+  const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
+  const [isSearchTriggered, setIsSearchTriggered] = useState(false); // 검색 버튼 클릭 상태
 
   const handleSearch = () => {
     setIsSearchTriggered(true); // 검색 버튼 클릭 시 상태 변경
+  };
+
+  const resetSearch = () => {
+    setSearchTerm('');
+    setIsSearchTriggered(false);
   };
 
   return (
@@ -28,21 +33,20 @@ function AppContent() {
         searchTerm={searchTerm} 
         setSearchTerm={setSearchTerm} 
         handleSearch={handleSearch}
-        selectedSeries={selectedSeries}
-        setSelectedSeries={setSelectedSeries}
+        resetSearch={resetSearch} 
       />
       
-      <div style={{ maxWidth: '1280px', margin: 'auto', marginTop: '100px', display: 'flex', alignItems:'center', justifyContent:'center' }}>
-        {/* Routes와 Route를 사용하여 라우팅 설정 */}
+      <div>
+        {/* Routes 설정 */}
         <Routes>
+          <Route path="/" element={<MainPage />} /> {/* MainPage가 기본 경로 */}
           <Route 
-            path="/" 
+            path="/search" 
             element={
               <PokemonCards 
                 searchTerm={searchTerm} 
-                selectedSeries={selectedSeries} 
                 isSearchTriggered={isSearchTriggered} 
-                setIsSearchTriggered={setIsSearchTriggered} 
+                setIsSearchTriggered={setIsSearchTriggered}
               />
             } 
           />
