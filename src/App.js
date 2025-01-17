@@ -8,39 +8,18 @@ import CardDetail from './pages/CardDetail';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-
-  const handleSearch = (results) => {
-    setSearchResults(results);
-  };
-
-  const resetSearch = () => {
-    setSearchTerm('');
-    setSearchResults([]);
-  };
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Header 
-          searchTerm={searchTerm} 
-          setSearchTerm={setSearchTerm} 
-          handleSearch={handleSearch}
-          resetSearch={resetSearch} 
-        />
+        <Header setSearchTerm={setSearchTerm} />
         
         <div>
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route 
               path="/search" 
-              element={
-                <PokemonCards 
-                  searchTerm={searchTerm} 
-                  searchResults={searchResults}
-                  handleSearch={handleSearch}
-                />
-              } 
+              element={<PokemonCards searchTerm={searchTerm} />} // 검색어 전달
             />
             <Route path="/card/:id" element={<CardDetail />} />
           </Routes>

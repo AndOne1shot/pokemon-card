@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import PokemonCards from './PokemonCards';
+import CardList from './CardList'; // 새로운 CardList 컴포넌트 사용
 
 function MainPage() {
     const [initialCards, setInitialCards] = useState([]);
@@ -34,7 +34,7 @@ function MainPage() {
 
     return (
         <div>
-            <PokemonCards initialCards={initialCards} />
+            <CardList cards={initialCards} /> {/* CardList로 초기 카드 렌더링 */}
         </div>
     );
 }

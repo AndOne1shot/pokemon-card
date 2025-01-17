@@ -1,39 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import logo from '../img/logo.jpeg';
 import ball from '../img/monsterball.png';
 
-function Header({ searchTerm, setSearchTerm, handleSearch, resetSearch }) {
+function Header({ setSearchTerm }) {
+  const [inputValue, setInputValue] = useState('');
   const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchTerm(inputValue); // 검색어 상태 업데이트
+    navigate('/search'); // 검색 결과 페이지로 이동
+  };
 
   return (
     <div className="black-nav">
       <div style={{display: 'flex', flexDirection: 'row', width: '100%', maxWidth: '1280px', alignItems: 'center', justifyContent: 'space-between'}}>
+        {/* 로고 */}
         <img 
           src={logo} 
           alt="logo" 
-          onClick={() => {
-            resetSearch();
-            navigate('/');
-          }} 
+          onClick={() => navigate('/')} 
           style={{ cursor: 'pointer', width: '150px', height: '100px'}}
         />
 
+        {/* 검색 폼 */}
         <div style={{display: 'flex'}}>
-          <form 
-            onSubmit={(e) => { 
-              e.preventDefault(); 
-              navigate('/search');
-              handleSearch();
-            }} 
-            className='name-search'
-          >
+          <form onSubmit={handleSearch} className='name-search'>
             <img src={ball} alt="Search" style={{ width: '50px', height: '50px' }} />
             
             <input
               type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
               placeholder="포켓몬 이름 검색"
               className='pokename'
             />
