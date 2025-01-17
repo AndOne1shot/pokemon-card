@@ -76,4 +76,9 @@
   padding: 0;
   border: 0;
   cursor: pointer;
+  background-color: #D1B2FF;
+}
+
+.search-button:hover{
+  background-color: #A566FF;
 }
