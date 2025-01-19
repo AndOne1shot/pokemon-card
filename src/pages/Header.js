@@ -3,14 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../img/logo.jpeg';
 import ball from '../img/monsterball.png';
 
+// 속성 이미지 데이터
+const attributeImages = {
+  불: require('../img/fire.webp'),
+  물: require('../img/water.webp'),
+  풀: require('../img/grass.webp'),
+  전기: require('../img/electric.webp'),
+  에스퍼: require('../img/psychic.webp'),
+  강철: require('../img/steel.webp'),
+  악: require('../img/ghost.webp'),
+  드래곤: require('../img/dragon.webp'),
+  격투: require('../img/fight.webp'),
+  노말: require('../img/nomal.webp'),
+};
+
 function Header({ setSearchTerm }) {
   const [inputValue, setInputValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
   const [selectedAttributes, setSelectedAttributes] = useState([]); // 선택된 속성 상태
   const navigate = useNavigate();
-
-  // 포켓몬 카드 속성 리스트
-  const attributes = ['불', '물', '풀', '전기', '에스퍼', '바위', '고스트'];
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -99,24 +110,32 @@ function Header({ setSearchTerm }) {
           }}>
             <h2 style={{ marginBottom: '20px' }}>포켓몬 카드 상세 설정</h2>
             <h3>속성&nbsp;/&nbsp;타입</h3>
-            {/* 속성 체크박스 - 가로 정렬 */}
+
+            {/* 속성 이미지 체크박스 - 가로 정렬 */}
             <div style={{
               display: 'flex', // 가로 정렬을 위한 flexbox
               flexWrap: 'wrap', // 줄바꿈 허용 (너무 길 경우)
               gap: '15px', // 항목 간 간격
+              justifyContent: 'center',
             }}>
-              {attributes.map((attribute) => (
+              {Object.keys(attributeImages).map((attribute) => (
                 <label key={attribute} style={{
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  marginBottom: '10px',
+                  cursor: 'pointer',
                 }}>
                   <input
                     type="checkbox"
                     value={attribute}
                     checked={selectedAttributes.includes(attribute)}
                     onChange={() => handleAttributeChange(attribute)}
-                    style={{ marginRight: '10px' }}
+                    style={{ marginBottom: '5px' }}
+                  />
+                  <img 
+                    src={attributeImages[attribute]} 
+                    alt={attribute} 
+                    style={{ width: '50px', height: '50px' }} 
                   />
                   {attribute}
                 </label>
