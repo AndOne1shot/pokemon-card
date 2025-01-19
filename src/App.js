@@ -9,6 +9,7 @@ import CardDetail from "./pages/CardDetail";
 function App() {
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
   const [selectedAttributes, setSelectedAttributes] = useState([]); // 선택된 속성 상태
+  const [selectedSeries, setSelectedSeries] = useState(""); // 선택된 시리즈 상태
 
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
         <Header 
           setSearchTerm={setSearchTerm} 
           setSelectedAttributes={setSelectedAttributes} 
+          setSelectedSeries={setSelectedSeries}
         />
         
         {/* Routes */}
@@ -28,6 +30,7 @@ function App() {
               <PokemonCards 
                 searchTerm={searchTerm} 
                 selectedAttributes={selectedAttributes} 
+                selectedSeries={selectedSeries}
               />
             } 
           />

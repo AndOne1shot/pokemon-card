@@ -31,10 +31,24 @@ const attributeMapping = {
   노말: "Colorless"
 };
 
-function Header({ setSearchTerm, setSelectedAttributes }) {
+// 시리즈 데이터
+const seriesList = [
+  "Base",
+  "EX",
+  "Diamond & Pearl",
+  "HeartGold & SoulSilver",
+  "Black & White",
+  "XY",
+  "Sun & Moon",
+  "Sword & Shield",
+  "Scarlet & Violet"
+];
+
+function Header({ setSearchTerm, setSelectedAttributes, setSelectedSeries }) {
   const [inputValue, setInputValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAttributes, setLocalSelectedAttributes] = useState([]);
+  const [selectedSeries, setLocalSelectedSeries] = useState(''); // 선택된 시리즈 상태
   const navigate = useNavigate();
 
   // 검색 버튼 클릭 시 부모로 검색어와 변환된 속성 전달
@@ -46,10 +60,12 @@ function Header({ setSearchTerm, setSelectedAttributes }) {
 
     console.log("검색어:", inputValue.trim());
     console.log("선택된 속성(영어):", mappedAttributes);
+    console.log("선택된 시리즈:", selectedSeries);
 
-    // 부모 컴포넌트로 검색어와 선택된 속성 전달
+    // 부모 컴포넌트로 검색어와 선택된 속성 및 시리즈 전달
     setSearchTerm(inputValue.trim());
     setSelectedAttributes(mappedAttributes);
+    setSelectedSeries(selectedSeries);
 
     // 검색 결과 페이지로 이동
     navigate('/search');
@@ -126,9 +142,9 @@ function Header({ setSearchTerm, setSelectedAttributes }) {
             fontFamily: "'Arial', sans-serif",
           }}>
             <h2 style={{ marginBottom: '20px' }}>포켓몬 카드 상세 설정</h2>
-            <h3>속성 / 타입</h3>
 
             {/* 속성 체크박스 */}
+            <h3>속성 / 타입</h3>
             <div style={{
               display: 'flex',
               flexWrap: 'wrap',
@@ -159,19 +175,32 @@ function Header({ setSearchTerm, setSelectedAttributes }) {
               ))}
             </div>
 
+            {/* 시리즈 선택 */}
+            <h3>시리즈</h3>
+            <select 
+              value={selectedSeries} 
+              onChange={(e) => setLocalSelectedSeries(e.target.value)} 
+              style={{
+                width:'100%',
+                padding:'10px'
+              }}
+            >
+              <option value="">모든 시리즈</option>
+              {seriesList.map(series => (
+                <option key={series} value={series}>{series}</option>
+              ))}
+            </select>
+
             {/* 닫기 버튼 */}
             <button onClick={closeModal} style={{
-              marginTop: '20px',
-              padding: '10px 20px',
-              backgroundColor: '#007BFF',
-              color: '#fff',
-              borderRadius: '5px',
-              border: 'none',
-              cursor: 'pointer',
-              float: 'right',
-            }}>
-              닫기
-            </button>
+              marginTop:'20px',
+              padding:'10px',
+              backgroundColor:'#007BFF',
+              color:'#fff',
+              borderRadius:'5px',
+              border:'none',
+              cursor:'pointer'
+}}>닫기</button>
           </div>
         </div>
       )}

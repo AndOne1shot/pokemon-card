@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PokemonCard from "./PokemonCard";
 
-function PokemonCards({ searchTerm, selectedAttributes }) {
+function PokemonCards({ searchTerm, selectedAttributes, selectedSeries }) {
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -19,6 +19,10 @@ function PokemonCards({ searchTerm, selectedAttributes }) {
             if (selectedAttributes && selectedAttributes.length > 0) {
                 const typesQuery = selectedAttributes.map(attr => `types:${attr}`).join(" OR ");
                 query += (query ? " AND " : "") + `(${typesQuery})`; // 속성 필터 추가
+            }
+
+            if (selectedSeries) {
+                query += (query ? " AND " : "") + `set.series:"${selectedSeries}"`; // 시리즈 필터 추가
             }
 
             console.log("API 요청 쿼리:", query);
@@ -42,7 +46,7 @@ function PokemonCards({ searchTerm, selectedAttributes }) {
         } finally {
             setLoading(false);
         }
-    }, [searchTerm, selectedAttributes]);
+    }, [searchTerm, selectedAttributes, selectedSeries]);
 
     // 검색어 또는 속성이 변경될 때마다 API 호출
     useEffect(() => {
