@@ -1,32 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import './App.css';
-import Header from './pages/Header';
-import MainPage from './pages/MainPage'; 
-import PokemonCards from './pages/PokemonCards';
-import CardDetail from './pages/CardDetail';
-import Footer from './pages/Footer';
+import "./App.css";
+import Header from "./pages/Header";
+import MainPage from "./pages/MainPage";
+import PokemonCards from "./pages/PokemonCards";
+import CardDetail from "./pages/CardDetail";
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
+  const [selectedAttributes, setSelectedAttributes] = useState([]); // 선택된 속성 상태
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Header setSearchTerm={setSearchTerm} />
+        {/* Header 컴포넌트 */}
+        <Header 
+          setSearchTerm={setSearchTerm} 
+          setSelectedAttributes={setSelectedAttributes} 
+        />
         
-        <div>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route 
-              path="/search" 
-              element={<PokemonCards searchTerm={searchTerm} />} // 검색어 전달
-            />
-            <Route path="/card/:id" element={<CardDetail />} />
-          </Routes>
-        </div>
-
-        <Footer />
+        {/* Routes */}
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route 
+            path="/search" 
+            element={
+              <PokemonCards 
+                searchTerm={searchTerm} 
+                selectedAttributes={selectedAttributes} 
+              />
+            } 
+          />
+          <Route path="/card/:id" element={<CardDetail />} />
+        </Routes>
       </div>
     </BrowserRouter>
   );

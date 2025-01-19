@@ -17,35 +17,52 @@ const attributeImages = {
   노말: require('../img/nomal.webp'),
 };
 
-function Header({ setSearchTerm }) {
+// 속성명 매핑 (한글 -> 영어)
+const attributeMapping = {
+  불: "Fire",
+  물: "Water",
+  풀: "Grass",
+  전기: "Lightning",
+  에스퍼: "Psychic",
+  강철: "Metal",
+  악: "Darkness",
+  드래곤: "Dragon",
+  격투: "Fighting",
+  노말: "Colorless"
+};
+
+function Header({ setSearchTerm, setSelectedAttributes }) {
   const [inputValue, setInputValue] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
-  const [selectedAttributes, setSelectedAttributes] = useState([]); // 선택된 속성 상태
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAttributes, setLocalSelectedAttributes] = useState([]);
   const navigate = useNavigate();
 
+  // 검색 버튼 클릭 시 부모로 검색어와 변환된 속성 전달
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (!inputValue.trim()) {
-      alert('카드 이름을 입력해 주세요.');
-      return;
-    }
+    // 한글 속성을 영어 속성으로 변환
+    const mappedAttributes = selectedAttributes.map(attr => attributeMapping[attr]);
 
-    setSearchTerm(inputValue);
+    console.log("검색어:", inputValue.trim());
+    console.log("선택된 속성(영어):", mappedAttributes);
+
+    // 부모 컴포넌트로 검색어와 선택된 속성 전달
+    setSearchTerm(inputValue.trim());
+    setSelectedAttributes(mappedAttributes);
+
+    // 검색 결과 페이지로 이동
     navigate('/search');
   };
 
-  const openModal = () => setIsModalOpen(true); // 모달 열기
-  const closeModal = () => setIsModalOpen(false); // 모달 닫기
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
-  // 속성 선택/해제 핸들러
   const handleAttributeChange = (attribute) => {
     if (selectedAttributes.includes(attribute)) {
-      // 이미 선택된 속성이면 제거
-      setSelectedAttributes(selectedAttributes.filter((attr) => attr !== attribute));
+      setLocalSelectedAttributes(selectedAttributes.filter(attr => attr !== attribute));
     } else {
-      // 선택되지 않은 속성이면 추가
-      setSelectedAttributes([...selectedAttributes, attribute]);
+      setLocalSelectedAttributes([...selectedAttributes, attribute]);
     }
   };
 
@@ -62,16 +79,16 @@ function Header({ setSearchTerm }) {
 
         {/* 검색 폼 */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <form onSubmit={handleSearch} className='name-search'>
+          <form onSubmit={handleSearch} className="name-search">
             <img src={ball} alt="Search" style={{ width: '50px', height: '50px' }} />
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="포켓몬 이름 검색"
-              className='pokename'
+              className="pokename"
             />
-            <button type="submit" className='search-button'>
+            <button type="submit" className="search-button">
               <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>
                 search
               </span>
@@ -79,7 +96,7 @@ function Header({ setSearchTerm }) {
           </form>
 
           {/* Detail 버튼 */}
-          <button onClick={openModal} className='detail-button' style={{ marginLeft: '10px' }}>
+          <button onClick={openModal} className="detail-button" style={{ marginLeft: '10px' }}>
             Detail
           </button>
         </div>
@@ -103,19 +120,19 @@ function Header({ setSearchTerm }) {
             backgroundColor: '#fff',
             padding: '20px',
             borderRadius: '8px',
-            width: '800px', // 모달 너비 설정
+            width: '800px',
             textAlign: 'left',
             color: '#000',
             fontFamily: "'Arial', sans-serif",
           }}>
             <h2 style={{ marginBottom: '20px' }}>포켓몬 카드 상세 설정</h2>
-            <h3>속성&nbsp;/&nbsp;타입</h3>
+            <h3>속성 / 타입</h3>
 
-            {/* 속성 이미지 체크박스 - 가로 정렬 */}
+            {/* 속성 체크박스 */}
             <div style={{
-              display: 'flex', // 가로 정렬을 위한 flexbox
-              flexWrap: 'wrap', // 줄바꿈 허용 (너무 길 경우)
-              gap: '15px', // 항목 간 간격
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '15px',
               justifyContent: 'center',
             }}>
               {Object.keys(attributeImages).map((attribute) => (
@@ -140,11 +157,6 @@ function Header({ setSearchTerm }) {
                   {attribute}
                 </label>
               ))}
-            </div>
-
-            {/* 선택된 속성 표시 */}
-            <div style={{ marginTop: '20px' }}>
-              <strong>선택된 속성:</strong> {selectedAttributes.join(', ') || "없음"}
             </div>
 
             {/* 닫기 버튼 */}
