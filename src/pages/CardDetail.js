@@ -35,11 +35,14 @@ function CardDetail() {
 
   return (
     <div className="card-detail">
-      <h2>{card.name}</h2>
-      <img src={card.images.large} alt={card.name} />
-      <p>타입: {card.types ? card.types.join(', ') : 'Unknown'}</p>
-      <p>HP: {card.hp}</p>
-      <p>레어리티: {card.rarity}</p>
+      <div>
+        <img src={card.images.large} alt={card.name} style={{width: '400px', height: '600px'}}/>
+      </div>
+      <div className='card-explain'>
+      <h2>이름 : {card.name}</h2>
+      <p>타입 : {card.types ? card.types.join(', ') : 'Unknown'}</p>
+      <p>HP : {card.hp}</p>
+      <p>레어리티 : {card.rarity}</p>
       {card.attacks && (
         <div>
           <h3>공격:</h3>
@@ -50,10 +53,11 @@ function CardDetail() {
           </ul>
         </div>
       )}
-      <div className="set-info">
+      
         <h3>세트 정보:</h3>
         <p>{set.name} ({set.series})</p>
         <img src={set.images.logo} alt={`${set.name} logo`} style={{width: '100px'}} />
+      
       </div>
     </div>
   );

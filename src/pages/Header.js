@@ -165,10 +165,10 @@ function Header({ setSearchTerm, setSelectedAttributes, setSelectedSeries }) {
                     onChange={() => handleAttributeChange(attribute)}
                     style={{ marginBottom: '5px' }}
                   />
-                  <img 
-                    src={attributeImages[attribute]} 
-                    alt={attribute} 
-                    style={{ width: '50px', height: '50px' }} 
+                  <img
+                    src={attributeImages[attribute]}
+                    alt={attribute}
+                    style={{ width: '50px', height: '50px' }}
                   />
                   {attribute}
                 </label>
@@ -177,12 +177,12 @@ function Header({ setSearchTerm, setSelectedAttributes, setSelectedSeries }) {
 
             {/* 시리즈 선택 */}
             <h3>시리즈</h3>
-            <select 
-              value={selectedSeries} 
-              onChange={(e) => setLocalSelectedSeries(e.target.value)} 
+            <select
+              value={selectedSeries}
+              onChange={(e) => setLocalSelectedSeries(e.target.value)}
               style={{
-                width:'100%',
-                padding:'10px'
+                width: '100%',
+                padding: '10px'
               }}
             >
               <option value="">모든 시리즈</option>
@@ -191,16 +191,41 @@ function Header({ setSearchTerm, setSelectedAttributes, setSelectedSeries }) {
               ))}
             </select>
 
-            {/* 닫기 버튼 */}
-            <button onClick={closeModal} style={{
-              marginTop:'20px',
-              padding:'10px',
-              backgroundColor:'#007BFF',
-              color:'#fff',
-              borderRadius:'5px',
-              border:'none',
-              cursor:'pointer'
-}}>닫기</button>
+            {/* 닫기 및 초기화 버튼 */}
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+              {/* 초기화 버튼 */}
+              <button
+                onClick={() => {
+                  setLocalSelectedAttributes([]); // 속성 초기화
+                  setLocalSelectedSeries(''); // 시리즈 초기화
+                }}
+                style={{
+                  padding: '10px',
+                  backgroundColor: '#FF5733',
+                  color: '#fff',
+                  borderRadius: '5px',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                초기화
+              </button>
+
+              {/* 닫기 버튼 */}
+              <button
+                onClick={closeModal}
+                style={{
+                  padding: '10px',
+                  backgroundColor: '#007BFF',
+                  color: '#fff',
+                  borderRadius: '5px',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                닫기
+              </button>
+            </div>
           </div>
         </div>
       )}
