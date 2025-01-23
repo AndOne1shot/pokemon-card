@@ -43,12 +43,26 @@ function CardDetail() {
       <p>타입 : {card.types ? card.types.join(', ') : 'Unknown'}</p>
       <p>HP : {card.hp}</p>
       <p>레어리티 : {card.rarity}</p>
+
+      {card.abilities && (
+          <div>
+            <h3>능력:</h3>
+            <ul>
+              {card.abilities.map((ability, index) => (
+                <li key={index}>
+                  <b>{ability.name}</b> : {ability.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
       {card.attacks && (
         <div>
           <h3>공격:</h3>
           <ul>
             {card.attacks.map((attack, index) => (
-              <li key={index}>{attack.name} - 데미지: {attack.damage}, 비용: {attack.cost.join(', ')}</li>
+              <li key={index}><b>{attack.name}</b> - 데미지: {attack.damage}, 비용: {attack.cost.join(', ')}<br/>{attack.text}</li>
             ))}
           </ul>
         </div>
