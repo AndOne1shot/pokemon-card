@@ -89,24 +89,33 @@ function CardDetail() {
         {card.attacks && (
           <div>
             <h3>공격:</h3>
-            <ul>
+            <ul style={{height: '200px'}}>
               {card.attacks.map((attack, index) => (
-                <li key={index}>
-                  
-                  {/* attack.cost 배열을 이미지로 변환 */}
+                <li key={index} style={{listStyleType: 'none'}}>
+                  <div  className='attack_detail'>
+                
+
+                  <div style={{display: 'flex', alignItems: 'center'}}>
+                      {/* attack.cost 배열을 이미지로 변환 */}
                   {attack.cost.map((cost, costIndex) => (
                     <img
                       key={costIndex}
                       src={attributeImages[cost]} // 속성 이름에 해당하는 이미지 가져오기
                       alt={cost}
-                      style={{ width: '20px', height: '20px' }}
-                    />
+                      style={{ width: '20px', height: '20px'}}
+                    /> 
                   ))}
-
-                  <b>{attack.name}</b> - 데미지: {attack.damage}
+                  <b style={{fontSize: '18px', marginLeft: '10px'}}>{attack.name}</b>&nbsp;&nbsp;- 데미지: {attack.damage}
                   <br />
-                  {attack.text}
                   
+                 
+                  </div>
+
+                  <div>
+                  {attack.text}
+                  </div>
+
+                  </div>
                 </li>
               ))}
             </ul>

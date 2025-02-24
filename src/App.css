@@ -112,6 +112,13 @@
   width: 60%;
 }
 
+.attack_detail{
+  display: flex;
+  height: 100px;
+
+  flex-direction: column;
+}
+
 @media (max-width : 768px){
   .card-detail{
     flex-direction: column;
