@@ -20,6 +20,9 @@
   margin-top: 100px;
   margin-left: auto;
   margin-right: auto;
+
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
 }
 
 .container {
@@ -119,8 +122,32 @@
   flex-direction: column;
 }
 
+@media (max-width: 1024px) {
+  .container {
+    flex: 0 0 calc(33.33% - 15px); /* 한 행에 3개 */
+    width: auto; /* 너비 자동 조정 */
+    height: auto; /* 높이 자동 조정 */
+  }
+}
+
 @media (max-width : 768px){
+  
+  .container {
+    flex: 0 0 calc(50% - 15px); /* 한 행에 2개 */
+    width: auto;
+    height: auto;
+  }
+
   .card-detail{
     flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    flex: 0 0 calc(100% - 15px); /* 한 행에 하나씩 */
+    width: auto;
+    height: auto;
+    margin-bottom: 10px; /* 좁은 화면에서 간격 줄이기 */
   }
 }
