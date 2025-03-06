@@ -69,9 +69,11 @@ function CardDetail() {
       </div>
       <div className='card-explain'>
         <h2>이름 : {card.name}</h2>
+        <hr/>
         <p>타입 : {card.types ? card.types.join(', ') : 'Unknown'}</p>
         <p>HP : {card.hp}</p>
         <p>레어리티 : {card.rarity}</p>
+        <hr/>
 
         {card.abilities && (
           <div>
@@ -89,7 +91,7 @@ function CardDetail() {
         {card.attacks && (
           <div>
             <h3>공격:</h3>
-            <ul style={{height: '200px'}}>
+            <ul style={{height: '100%'}}>
               {card.attacks.map((attack, index) => (
                 <li key={index} style={{listStyleType: 'none'}}>
                   <div  className='attack_detail'>
@@ -121,6 +123,8 @@ function CardDetail() {
             </ul>
           </div>
         )}
+
+        <hr/>
 
         <h3>세트 정보:</h3>
         <p>{set.name} ({set.series})</p>

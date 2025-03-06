@@ -46,7 +46,8 @@
 
 .name-search{
   height: 50px;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   border-width: 1px;
   border-style: solid;
   border-color: black;

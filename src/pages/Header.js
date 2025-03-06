@@ -49,6 +49,7 @@ function Header({ setSearchTerm, setSelectedAttributes, setSelectedSeries }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAttributes, setLocalSelectedAttributes] = useState([]);
   const [selectedSeries, setLocalSelectedSeries] = useState(''); // 선택된 시리즈 상태
+  const [isDetailSelected, setIsDetailSelected] = useState(false);
   const navigate = useNavigate();
 
   // 검색 버튼 클릭 시 부모로 검색어와 변환된 속성 전달
@@ -75,11 +76,18 @@ function Header({ setSearchTerm, setSelectedAttributes, setSelectedSeries }) {
   const closeModal = () => setIsModalOpen(false);
 
   const handleAttributeChange = (attribute) => {
-    if (selectedAttributes.includes(attribute)) {
-      setLocalSelectedAttributes(selectedAttributes.filter(attr => attr !== attribute));
-    } else {
-      setLocalSelectedAttributes([...selectedAttributes, attribute]);
-    }
+    const newAttributes = selectedAttributes.includes(attribute)
+      ? selectedAttributes.filter(attr => attr !== attribute)
+      : [...selectedAttributes, attribute];
+    setLocalSelectedAttributes(newAttributes);
+    setIsDetailSelected(newAttributes.length > 0 || selectedSeries !== '');
+  };
+  
+  // 시리즈 선택 onChange 이벤트 핸들러
+  const handleSeriesChange = (e) => {
+    const newSeries = e.target.value;
+    setLocalSelectedSeries(newSeries);
+    setIsDetailSelected(selectedAttributes.length > 0 || newSeries !== '');
   };
 
   return (
@@ -113,7 +121,8 @@ function Header({ setSearchTerm, setSelectedAttributes, setSelectedSeries }) {
 
           {/* Detail 버튼 */}
           <button onClick={openModal} className="detail-button" style={{ marginLeft: '10px' }}>
-            Detail
+          Detail {isDetailSelected && <br/>} 
+          {isDetailSelected && <span>on</span>}
           </button>
         </div>
       </div>
@@ -179,7 +188,7 @@ function Header({ setSearchTerm, setSelectedAttributes, setSelectedSeries }) {
             <h3>시리즈</h3>
             <select
               value={selectedSeries}
-              onChange={(e) => setLocalSelectedSeries(e.target.value)}
+              onChange={handleSeriesChange}
               style={{
                 width: '100%',
                 padding: '10px'
@@ -198,6 +207,7 @@ function Header({ setSearchTerm, setSelectedAttributes, setSelectedSeries }) {
                 onClick={() => {
                   setLocalSelectedAttributes([]); // 속성 초기화
                   setLocalSelectedSeries(''); // 시리즈 초기화
+                  setIsDetailSelected(false);
                 }}
                 style={{
                   padding: '10px',
