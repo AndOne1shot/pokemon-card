@@ -20,5 +20,5 @@
 
 <h3>상세 페이지</h3>
 <img src = "https://github.com/user-attachments/assets/fadf924c-bfeb-475d-a77e-6b289bbc00a8"></img><br><br>
-카드를 클릭하면 
+
 
