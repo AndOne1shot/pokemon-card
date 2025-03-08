@@ -5,3 +5,8 @@
 <h3>메인페이지</h3>
 <img src = "https://github.com/user-attachments/assets/9b8e58d6-4188-4124-9813-c089e47bfbce"></img><br><br>
 메인페이지는 좌상단의 로고를 클릭하면 이동할 수 있고, 현재 1~4세대의 스타팅포켓몬으로 구성되어 있습니다.
+
+
+<h3>검색 결과</h3>
+<img src = "https://github.com/user-attachments/assets/ae054dfd-2196-4f5a-a581-d525d2b61e23"></img><br><br>
+
