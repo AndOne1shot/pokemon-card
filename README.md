@@ -9,4 +9,9 @@
 
 <h3>검색 결과</h3>
 <img src = "https://github.com/user-attachments/assets/ae054dfd-2196-4f5a-a581-d525d2b61e23"></img><br><br>
+우상단의 검색창에 포켓몬이름을 검색하면 해당되는 이름의 카드가 나옵니다.
 
+<h4>상세검색</h4>
+<img src = "https://github.com/user-attachments/assets/5c41c687-7f78-42c5-919c-1177b20b7183"></img><br><br>
+검색 버튼 옆에 detail버튼을 누르면 속성, 시리즈 별로 검색할 수 있는 모달창이 나옵니다.<br>
+조건을 설정하면 detail버튼 하단에 on이라는 글자가 생기면서 내가 조건을 설정했음을 알려주고 초기화를 누르면 조건이 사라집니다.
